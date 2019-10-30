@@ -13,7 +13,7 @@ from pygame.locals import (
 pygame.init()
 
 screen = pygame.display.set_mode(
-    [256, 192], pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE, 32)
+    [1920, 1080], pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE, 32)
 
 running = True
 while running:
