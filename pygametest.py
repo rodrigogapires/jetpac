@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 from pygame.locals import (
     K_UP,
@@ -11,21 +12,22 @@ from pygame.locals import (
 )
 
 pygame.init()
-
 screen = pygame.display.set_mode(
-    [1920, 1080], pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE, 32)
+    [256, 192], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
+
+background = pygame.image.load("jetpac.png")
 
 running = True
+
 while running:
-
-    screen.fill((255, 255, 255))
-
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 running = False
 
-    pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
+    screen.fill((255, 0, 0))
+    screen.blit(background, (0, 0))
     pygame.display.flip()
 
 pygame.quit()
+sys.exit()
