@@ -8,7 +8,10 @@ class Player:
         self.x = x
         self.y = y
 
-    def gravity(self, dt):
+    def gun(self):
+        pass
+
+    def gravity(self):
         self.y += 2
 
     def moveRight(self):
@@ -25,7 +28,9 @@ class Player:
     def moveDown(self):
         self.y += 1
 
-    def check(self):
+    def collision(self):
+
+        # Bordas
         if self.x > 242:
             self.x = 242
 
