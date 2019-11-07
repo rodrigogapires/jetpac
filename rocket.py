@@ -35,3 +35,23 @@ class Rocket:
         elif self.stage == 2 and abs(player_x - self.rocket3_x) < 5 and abs(player_y - self.rocket3_y) < 8:
             self.rocket3_x = player_x
             self.rocket3_y = player_y
+
+    def fuel(self, fuel):
+        if fuel == 1:
+            self.rocket1 = pygame.image.load(
+                "sprites\\rocket1_fuel1.png").convert_alpha()
+        if fuel == 2:
+            self.rocket1 = pygame.image.load(
+                "sprites\\rocket1_fuel2.png").convert_alpha()
+        if fuel == 3:
+            self.rocket2 = pygame.image.load(
+                "sprites\\rocket2_fuel1.png").convert_alpha()
+        if fuel == 4:
+            self.rocket2 = pygame.image.load(
+                "sprites\\rocket2_fuel2.png").convert_alpha()
+        if fuel == 5:
+            self.rocket3 = pygame.image.load(
+                "sprites\\rocket3_fuel1.png").convert_alpha()
+        if fuel == 6:
+            self.rocket3 = pygame.image.load(
+                "sprites\\rocket3_fuel2.png").convert_alpha()

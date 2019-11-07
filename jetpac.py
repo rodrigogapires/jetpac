@@ -47,17 +47,20 @@ while running:
     if keys[K_SPACE]:
         player.gun()
 
+    player.gravity()
+    player.collision()
+
     if rocket.stage < 3:
         rocket.getPart(player.x, player.y)
 
-    if rocket.stage == 3 and fuel.used <= 6:
+    if rocket.stage == 3 and fuel.used < 6:
         fuel.gravity()
         fuel.collision()
         fuel.getFuel(player.x, player.y)
         screen.blit(fuel.sprite, (fuel.x, fuel.y))
 
-    player.gravity()
-    player.collision()
+    if fuel.used > 0:
+        rocket.fuel(fuel.used)
 
     screen.blit(player.sprite, (player.x, player.y))
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))

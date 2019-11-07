@@ -14,10 +14,9 @@ class Fuel:
 
     def getFuel(self, player_x, player_y):
         if self.x == 168 and self.y < 171:
-            print(self.y)
             if self.y == 170:
                 self.used += 1
-                self.x = random.randrange(0, 240, 10)
+                self.x = random.randrange(0, 240, 20)
                 self.y = -16
 
         elif abs(player_x - self.x) < 5 and abs(player_y - self.y) < 10:
