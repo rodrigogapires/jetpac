@@ -1,6 +1,7 @@
 import pygame
 
 
+
 class Player:
     def __init__(self, x, y):
         self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
@@ -8,8 +9,11 @@ class Player:
         self.x = x
         self.y = y
 
-    def gun(self):
-        pass
+    def hit(self, enemy_x, enemy_y):
+        if self.x - enemy_x < 16 and self.x - enemy_x > 0 and self.y - enemy_y < 11 and self.y - enemy_y > 0:
+            self.lifes -= 1
+            print(self.lifes)
+          
 
     def gravity(self):
         self.y += 2
@@ -63,3 +67,6 @@ class Player:
 
         if self.y > 80 and self.y < 104 and self.x > 110 and self.x < 150:
             self.y = 104
+            
+    
+        

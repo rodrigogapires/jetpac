@@ -51,7 +51,13 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
             if event.key == K_SPACE:
-                player.gun()
+                if right_left == 0:
+                    bullet = RightBullet(player.x, player.y)
+                    all_sprites.add(bullet)
+                else:
+                    bullet = LeftBullet(player.x, player.y)
+                    all_sprites.add(bullet)
+                                    
         elif event.type == ADDENEMY:
             if n < 8:
                 a = random.randint(0, 1)
@@ -77,12 +83,12 @@ while running:
         player.moveUp()
     if keys[K_DOWN]:
         player.moveDown()
-    if keys[K_SPACE]:
-        player.gun()
-
+    
     player.gravity()
     all_sprites.update()
     player.collision()
+    
+
 
     if rocket.stage < 3:
         rocket.get(player.x, player.y)
@@ -104,15 +110,21 @@ while running:
         player.y = 162
     else:
         rocket.nextLevel()
+        
+    if player.lifes == -1:
+        running = False
+
 
     for i in all_sprites:
         screen.blit(i.sprite, (i.x, i.y))
+        player.hit(i.x, i.y)    
     rocket.fuel(fuel.used)
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))
     screen.blit(rocket.rocket2, (rocket.rocket2_x, rocket.rocket2_y))
     screen.blit(rocket.rocket3, (rocket.rocket3_x, rocket.rocket3_y))
     pygame.display.flip()
     clock.tick(30)
-
+    
+    
 pygame.quit()
 sys.exit()
