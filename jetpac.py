@@ -113,6 +113,7 @@ while running:
         
     if player.lifes == -1:
         running = False
+        
 
 
     for i in all_sprites:
