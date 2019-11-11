@@ -10,6 +10,7 @@ class Rocket:
         self.rocket3 = pygame.image.load(
             "sprites\\rocket3.png").convert_alpha()
         self.stage = 1
+        self.inside = False
         self.rocket1_x = 168
         self.rocket1_y = 168
         self.rocket2_x = 128
@@ -17,7 +18,7 @@ class Rocket:
         self.rocket3_x = 48
         self.rocket3_y = 56
 
-    def getPart(self, player_x, player_y):
+    def get(self, player_x, player_y):
         if self.stage == 1 and self.rocket2_x == 168 and self.rocket2_y < 152:
             self.rocket2_y += 1
             if self.rocket2_y == 152:
@@ -37,21 +38,68 @@ class Rocket:
             self.rocket3_y = player_y
 
     def fuel(self, fuel):
-        if fuel == 1:
+        if fuel == 0:
+            self.rocket1 = pygame.image.load(
+                "sprites\\rocket1.png").convert_alpha()
+            self.rocket2 = pygame.image.load(
+                "sprites\\rocket2.png").convert_alpha()
+            self.rocket3 = pygame.image.load(
+                "sprites\\rocket3.png").convert_alpha()
+        elif fuel == 1:
             self.rocket1 = pygame.image.load(
                 "sprites\\rocket1_fuel1.png").convert_alpha()
-        if fuel == 2:
+            self.rocket2 = pygame.image.load(
+                "sprites\\rocket2.png").convert_alpha()
+            self.rocket3 = pygame.image.load(
+                "sprites\\rocket3.png").convert_alpha()
+        elif fuel == 2:
             self.rocket1 = pygame.image.load(
                 "sprites\\rocket1_fuel2.png").convert_alpha()
-        if fuel == 3:
+            self.rocket2 = pygame.image.load(
+                "sprites\\rocket2.png").convert_alpha()
+            self.rocket3 = pygame.image.load(
+                "sprites\\rocket3.png").convert_alpha()
+        elif fuel == 3:
+            self.rocket1 = pygame.image.load(
+                "sprites\\rocket1_fuel2.png").convert_alpha()
             self.rocket2 = pygame.image.load(
                 "sprites\\rocket2_fuel1.png").convert_alpha()
-        if fuel == 4:
+            self.rocket3 = pygame.image.load(
+                "sprites\\rocket3.png").convert_alpha()
+        elif fuel == 4:
+            self.rocket1 = pygame.image.load(
+                "sprites\\rocket1_fuel2.png").convert_alpha()
             self.rocket2 = pygame.image.load(
                 "sprites\\rocket2_fuel2.png").convert_alpha()
-        if fuel == 5:
+            self.rocket3 = pygame.image.load(
+                "sprites\\rocket3.png").convert_alpha()
+        elif fuel == 5:
+            self.rocket1 = pygame.image.load(
+                "sprites\\rocket1_fuel2.png").convert_alpha()
+            self.rocket2 = pygame.image.load(
+                "sprites\\rocket2_fuel2.png").convert_alpha()
             self.rocket3 = pygame.image.load(
                 "sprites\\rocket3_fuel1.png").convert_alpha()
-        if fuel == 6:
+        elif fuel == 6:
+            self.rocket1 = pygame.image.load(
+                "sprites\\rocket1_fuel2.png").convert_alpha()
+            self.rocket2 = pygame.image.load(
+                "sprites\\rocket2_fuel2.png").convert_alpha()
             self.rocket3 = pygame.image.load(
                 "sprites\\rocket3_fuel2.png").convert_alpha()
+
+    def getIn(self, fuel, player_x, player_y):
+        if fuel == 6 and abs(player_x - self.rocket1_x) < 5 and abs(player_y - self.rocket1_y) < 8:
+            self.inside = True
+
+    def nextLevel(self):
+        if self.rocket1_y > -16 and self.stage == 3:
+            self.rocket1_y -= 1
+            self.rocket2_y -= 1
+            self.rocket3_y -= 1
+        elif self.rocket1_y == -16 and self.stage == 3:
+            self.stage = 4
+        elif self.rocket1_y < 168 and self.stage == 4:
+            self.rocket1_y += 1
+            self.rocket2_y += 1
+            self.rocket3_y += 1
