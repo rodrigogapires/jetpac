@@ -1,8 +1,11 @@
 import pygame
 import sys
+import random
 from player import Player
 from rocket import Rocket
 from fuel import Fuel
+from bullet import RightBullet, LeftBullet
+from class_enemy import Enemy,EnemyRight
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -23,9 +26,22 @@ background = pygame.image.load("sprites\\jetpac.png").convert_alpha()
 player = Player(130, 162)
 rocket = Rocket()
 fuel = Fuel()
+n=0
+
+
+ADDENEMY = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDENEMY, 250)
+
+
+aliens=pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
+
+#RIGHT = 0 //// LEFT = 1
+right_left=0
 
 running = True
 clock = pygame.time.Clock()
+
 while running:
     screen.fill((0, 0, 0))
     screen.blit(background, (0, 0))
@@ -34,20 +50,43 @@ while running:
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 running = False
+            if event.key == K_SPACE:
+                player.gun()
+        elif event.type == ADDENEMY:
+            if n<8:
+                a=random.randint(0,1)
+                if a==0:
+                    new_enemy = Enemy(0,random.randint(0,162))
+                    aliens.add(new_enemy)
+                    all_sprites.add(new_enemy)
+                    n+=1
+                else:
+                    new_enemy = EnemyRight(242,random.randint(0,162))
+                    aliens.add(new_enemy)
+                    all_sprites.add(new_enemy)
+                    n+=1
+                
+            
+           
+            
 
     keys = pygame.key.get_pressed()
     if keys[K_RIGHT]:
         player.moveRight()
+        right_left = 0
     if keys[K_LEFT]:
         player.moveLeft()
+        right_left = 1 
     if keys[K_UP]:
         player.moveUp()
     if keys[K_DOWN]:
         player.moveDown()
     if keys[K_SPACE]:
         player.gun()
+        
 
     player.gravity()
+    all_sprites.update()
     player.collision()
 
     if rocket.stage < 3:
@@ -63,6 +102,8 @@ while running:
         rocket.fuel(fuel.used)
 
     screen.blit(player.sprite, (player.x, player.y))
+    for i in all_sprites:
+        screen.blit(i.sprite, (i.x, i.y))
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))
     screen.blit(rocket.rocket2, (rocket.rocket2_x, rocket.rocket2_y))
     screen.blit(rocket.rocket3, (rocket.rocket3_x, rocket.rocket3_y))

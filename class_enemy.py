@@ -1,14 +1,29 @@
+import pygame
+import random 
+
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self):
-        super(Enemy, self).__init__()
-        self.image = pygame.image.load('apple.png').convert()
-        self.image.set_colorkey((255, 255, 255), RLEACCEL)
-        self.rect = self.surf.get_rect(
-             center=(
-                 random.randint(1920 + 20, 1920 + 100),
-                 random.randint(0, 1080),
-             )
-         )
-        self.speed = random.randint(5, 10)
-        
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
+        self.x = x
+        self.y = y
+        self.speed = random.randint(1,3)
+ 
+    def update(self):
+        self.x += self.speed
+        if self.x > 242:
+            self.x = 0
+            
+class EnemyRight(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
+        self.x = x
+        self.y = y
+        self.speed = random.randint(1,3)
+ 
+    def update(self):
+        self.x -= self.speed
+        if self.x < 0:
+            self.x = 242
     
