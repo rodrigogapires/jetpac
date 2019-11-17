@@ -12,7 +12,7 @@ class Player:
     def hit(self, enemy_x, enemy_y):
         if self.x - enemy_x < 16 and self.x - enemy_x > 0 and self.y - enemy_y < 11 and self.y - enemy_y > 0:
             self.lifes -= 1
-            print(self.lifes)
+            print('vidas:',self.lifes)
           
 
     def gravity(self):
@@ -68,5 +68,3 @@ class Player:
         if self.y > 80 and self.y < 104 and self.x > 110 and self.x < 150:
             self.y = 104
             
-    
-        

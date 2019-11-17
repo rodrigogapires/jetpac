@@ -26,7 +26,8 @@ background = pygame.image.load("sprites\\jetpac.png").convert_alpha()
 player = Player(130, 162)
 rocket = Rocket()
 fuel = Fuel()
-n = 0
+
+
 
 
 ADDENEMY = pygame.USEREVENT + 1
@@ -34,6 +35,7 @@ pygame.time.set_timer(ADDENEMY, 250)
 
 
 aliens = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 
 # RIGHT = 0 //// LEFT = 1
@@ -53,24 +55,28 @@ while running:
             if event.key == K_SPACE:
                 if right_left == 0:
                     bullet = RightBullet(player.x, player.y)
+                    bullets.add(bullet)
                     all_sprites.add(bullet)
                 else:
                     bullet = LeftBullet(player.x, player.y)
+                    bullets.add(bullet)
                     all_sprites.add(bullet)
                                     
         elif event.type == ADDENEMY:
-            if n < 8:
+            if len(aliens) < 8:
                 a = random.randint(0, 1)
                 if a == 0:
                     new_enemy = Enemy(0, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)
-                    n += 1
+                    
                 else:
                     new_enemy = EnemyRight(242, random.randint(0, 162))
                     aliens.add(new_enemy)
-                    all_sprites.add(new_enemy)
-                    n += 1
+                    all_sprites.add(new_enemy)   
+                    
+
+  
 
     keys = pygame.key.get_pressed()
     if keys[K_RIGHT]:
@@ -83,11 +89,19 @@ while running:
         player.moveUp()
     if keys[K_DOWN]:
         player.moveDown()
+        
+    a=0    
     
     player.gravity()
-    all_sprites.update()
     player.collision()
+    aliens.update()
     
+    
+    for i in aliens:
+        player.hit(i.x, i.y)
+        bullets.update(a,i, i.x, i.y)
+        a+=1
+        
 
 
     if rocket.stage < 3:
@@ -111,14 +125,14 @@ while running:
     else:
         rocket.nextLevel()
         
-    if player.lifes == -1:
+    if player.lifes == 0:
         running = False
+       
         
 
-
+    
     for i in all_sprites:
         screen.blit(i.sprite, (i.x, i.y))
-        player.hit(i.x, i.y)    
     rocket.fuel(fuel.used)
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))
     screen.blit(rocket.rocket2, (rocket.rocket2_x, rocket.rocket2_y))
