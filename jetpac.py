@@ -16,6 +16,9 @@ from pygame.locals import (
     KEYDOWN,
 )
 
+
+
+
 pygame.init()
 screen = pygame.display.set_mode(
     [256, 192], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
@@ -26,6 +29,8 @@ background = pygame.image.load("sprites\\jetpac.png").convert_alpha()
 player = Player(130, 162)
 rocket = Rocket()
 fuel = Fuel()
+
+
 
 
 
@@ -64,19 +69,23 @@ while running:
                                     
         elif event.type == ADDENEMY:
             if len(aliens) < 8:
-                a = random.randint(0, 1)
-                if a == 0:
-                    new_enemy = Enemy(0, random.randint(0, 162))
+                aleatorio = random.randint(0, 1)
+                if aleatorio == 0:
+                    new_enemy = Enemy(-80, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)
                     
                 else:
-                    new_enemy = EnemyRight(242, random.randint(0, 162))
+                    new_enemy = EnemyRight(242+80, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)   
                     
 
-  
+    font = pygame.font.SysFont('Consolas',15)
+    text =font.render (str(player.lifes),False,(255,255,255),None)
+    textRect = text.get_rect() 
+    textRect.center = (256 // 2, 8) 
+
 
     keys = pygame.key.get_pressed()
     if keys[K_RIGHT]:
@@ -91,6 +100,8 @@ while running:
         player.moveDown()
         
     a=0    
+    hit_player = False
+    
     
     player.gravity()
     player.collision()
@@ -98,7 +109,11 @@ while running:
     
     
     for i in aliens:
-        player.hit(i.x, i.y)
+        if player.hit(i.x,i.y) is True:
+            player.x = 130
+            player.y = 162
+            for enemy in aliens:            
+                enemy.kill()
         bullets.update(a,i, i.x, i.y)
         a+=1
         
@@ -124,12 +139,13 @@ while running:
         player.y = 162
     else:
         rocket.nextLevel()
-        
-    if player.lifes == 0:
-        running = False
+        for enemy in aliens:
+                enemy.kill()
+    
        
         
-
+    if player.lifes < 1:
+        running = False
     
     for i in all_sprites:
         screen.blit(i.sprite, (i.x, i.y))
@@ -137,6 +153,7 @@ while running:
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))
     screen.blit(rocket.rocket2, (rocket.rocket2_x, rocket.rocket2_y))
     screen.blit(rocket.rocket3, (rocket.rocket3_x, rocket.rocket3_y))
+    screen.blit(text, textRect)
     pygame.display.flip()
     clock.tick(30)
     

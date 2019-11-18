@@ -13,6 +13,8 @@ class Player:
         if self.x - enemy_x < 16 and self.x - enemy_x > 0 and self.y - enemy_y < 11 and self.y - enemy_y > 0:
             self.lifes -= 1
             print('vidas:',self.lifes)
+            return True
+        
           
 
     def gravity(self):
