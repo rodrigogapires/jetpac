@@ -17,23 +17,19 @@ from pygame.locals import (
 )
 
 
-
-
 pygame.init()
-screen = pygame.display.set_mode(
-    [256, 192], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
+infoObject = pygame.display.Info() # Obtem a resolucao do monitor
+screen_full = pygame.display.set_mode([int(infoObject.current_w * 3 / 4), infoObject.current_h], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
+screen = pygame.Surface((256, 192))
 pygame.mouse.set_visible(0)
 
+font = pygame.font.Font("jetpac.ttf", 6)
 background = pygame.image.load("sprites\\jetpac.png").convert_alpha()
+lifes = pygame.image.load("sprites\\lifes.png").convert_alpha()
 
 player = Player(130, 162)
 rocket = Rocket()
 fuel = Fuel()
-
-
-
-
-
 
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
@@ -76,16 +72,9 @@ while running:
                     all_sprites.add(new_enemy)
                     
                 else:
-                    new_enemy = EnemyRight(242+80, random.randint(0, 162))
+                    new_enemy = EnemyRight(242 + 80, random.randint(0, 162))
                     aliens.add(new_enemy)
-                    all_sprites.add(new_enemy)   
-                    
-
-    font = pygame.font.SysFont('Consolas',15)
-    text =font.render (str(player.lifes),False,(255,255,255),None)
-    textRect = text.get_rect() 
-    textRect.center = (256 // 2, 8) 
-
+                    all_sprites.add(new_enemy)
 
     keys = pygame.key.get_pressed()
     if keys[K_RIGHT]:
@@ -99,15 +88,15 @@ while running:
     if keys[K_DOWN]:
         player.moveDown()
         
-    a=0    
+    a = 0    
     hit_player = False
-    
-    
+
+
     player.gravity()
     player.collision()
     aliens.update()
-    
-    
+
+
     for i in aliens:
         if player.hit(i.x,i.y) is True:
             player.x = 130
@@ -115,9 +104,7 @@ while running:
             for enemy in aliens:            
                 enemy.kill()
         bullets.update(a,i, i.x, i.y)
-        a+=1
-        
-
+        a += 1
 
     if rocket.stage < 3:
         rocket.get(player.x, player.y)
@@ -129,6 +116,7 @@ while running:
         screen.blit(fuel.sprite, (fuel.x, fuel.y))
 
     rocket.getIn(fuel.used, player.x, player.y)
+
     if rocket.inside is False:
         screen.blit(player.sprite, (player.x, player.y))
     elif rocket.inside is True and rocket.stage == 4 and rocket.rocket1_y == 168:
@@ -141,22 +129,28 @@ while running:
         rocket.nextLevel()
         for enemy in aliens:
                 enemy.kill()
-    
-       
-        
-    if player.lifes < 1:
+
+    if player.lifes < 0:
         running = False
-    
-    for i in all_sprites:
-        screen.blit(i.sprite, (i.x, i.y))
+
+    lifes_text = font.render (str(player.lifes),False,(255,255,255),None)
+    lifesRect = lifes_text.get_rect() 
+    lifesRect = (66, 1) 
+
     rocket.fuel(fuel.used)
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))
     screen.blit(rocket.rocket2, (rocket.rocket2_x, rocket.rocket2_y))
     screen.blit(rocket.rocket3, (rocket.rocket3_x, rocket.rocket3_y))
-    screen.blit(text, textRect)
+    for i in all_sprites:
+        screen.blit(i.sprite, (i.x, i.y))
+    if player.lifes > 0:
+        screen.blit(lifes_text, lifesRect)
+        screen.blit(lifes, (73, 0))
     pygame.display.flip()
     clock.tick(30)
-    
-    
+    fps = clock.get_fps()
+    print(fps)
+    pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full) # Upscale para resolucao do monitor
+
 pygame.quit()
 sys.exit()

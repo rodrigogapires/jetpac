@@ -3,12 +3,9 @@ import pygame
 
 class Rocket:
     def __init__(self):
-        self.rocket1 = pygame.image.load(
-            "sprites\\rocket1.png").convert_alpha()
-        self.rocket2 = pygame.image.load(
-            "sprites\\rocket2.png").convert_alpha()
-        self.rocket3 = pygame.image.load(
-            "sprites\\rocket3.png").convert_alpha()
+        self.rocket1 = pygame.image.load("sprites\\rocket1.png").convert_alpha()
+        self.rocket2 = pygame.image.load("sprites\\rocket2.png").convert_alpha()
+        self.rocket3 = pygame.image.load("sprites\\rocket3.png").convert_alpha()
         self.stage = 1
         self.inside = False
         self.rocket1_x = 168
@@ -39,54 +36,33 @@ class Rocket:
 
     def fuel(self, fuel):
         if fuel == 0:
-            self.rocket1 = pygame.image.load(
-                "sprites\\rocket1.png").convert_alpha()
-            self.rocket2 = pygame.image.load(
-                "sprites\\rocket2.png").convert_alpha()
-            self.rocket3 = pygame.image.load(
-                "sprites\\rocket3.png").convert_alpha()
+            self.rocket1 = pygame.image.load("sprites\\rocket1.png").convert_alpha()
+            self.rocket2 = pygame.image.load("sprites\\rocket2.png").convert_alpha()
+            self.rocket3 = pygame.image.load("sprites\\rocket3.png").convert_alpha()
         elif fuel == 1:
-            self.rocket1 = pygame.image.load(
-                "sprites\\rocket1_fuel1.png").convert_alpha()
-            self.rocket2 = pygame.image.load(
-                "sprites\\rocket2.png").convert_alpha()
-            self.rocket3 = pygame.image.load(
-                "sprites\\rocket3.png").convert_alpha()
+            self.rocket1 = pygame.image.load("sprites\\rocket1_fuel1.png").convert_alpha()
+            self.rocket2 = pygame.image.load("sprites\\rocket2.png").convert_alpha()
+            self.rocket3 = pygame.image.load("sprites\\rocket3.png").convert_alpha()
         elif fuel == 2:
-            self.rocket1 = pygame.image.load(
-                "sprites\\rocket1_fuel2.png").convert_alpha()
-            self.rocket2 = pygame.image.load(
-                "sprites\\rocket2.png").convert_alpha()
-            self.rocket3 = pygame.image.load(
-                "sprites\\rocket3.png").convert_alpha()
+            self.rocket1 = pygame.image.load("sprites\\rocket1_fuel2.png").convert_alpha()
+            self.rocket2 = pygame.image.load("sprites\\rocket2.png").convert_alpha()
+            self.rocket3 = pygame.image.load("sprites\\rocket3.png").convert_alpha()
         elif fuel == 3:
-            self.rocket1 = pygame.image.load(
-                "sprites\\rocket1_fuel2.png").convert_alpha()
-            self.rocket2 = pygame.image.load(
-                "sprites\\rocket2_fuel1.png").convert_alpha()
-            self.rocket3 = pygame.image.load(
-                "sprites\\rocket3.png").convert_alpha()
+            self.rocket1 = pygame.image.load("sprites\\rocket1_fuel2.png").convert_alpha()
+            self.rocket2 = pygame.image.load("sprites\\rocket2_fuel1.png").convert_alpha()
+            self.rocket3 = pygame.image.load("sprites\\rocket3.png").convert_alpha()
         elif fuel == 4:
-            self.rocket1 = pygame.image.load(
-                "sprites\\rocket1_fuel2.png").convert_alpha()
-            self.rocket2 = pygame.image.load(
-                "sprites\\rocket2_fuel2.png").convert_alpha()
-            self.rocket3 = pygame.image.load(
-                "sprites\\rocket3.png").convert_alpha()
+            self.rocket1 = pygame.image.load("sprites\\rocket1_fuel2.png").convert_alpha()
+            self.rocket2 = pygame.image.load("sprites\\rocket2_fuel2.png").convert_alpha()
+            self.rocket3 = pygame.image.load("sprites\\rocket3.png").convert_alpha()
         elif fuel == 5:
-            self.rocket1 = pygame.image.load(
-                "sprites\\rocket1_fuel2.png").convert_alpha()
-            self.rocket2 = pygame.image.load(
-                "sprites\\rocket2_fuel2.png").convert_alpha()
-            self.rocket3 = pygame.image.load(
-                "sprites\\rocket3_fuel1.png").convert_alpha()
+            self.rocket1 = pygame.image.load("sprites\\rocket1_fuel2.png").convert_alpha()
+            self.rocket2 = pygame.image.load("sprites\\rocket2_fuel2.png").convert_alpha()
+            self.rocket3 = pygame.image.load("sprites\\rocket3_fuel1.png").convert_alpha()
         elif fuel == 6:
-            self.rocket1 = pygame.image.load(
-                "sprites\\rocket1_fuel2.png").convert_alpha()
-            self.rocket2 = pygame.image.load(
-                "sprites\\rocket2_fuel2.png").convert_alpha()
-            self.rocket3 = pygame.image.load(
-                "sprites\\rocket3_fuel2.png").convert_alpha()
+            self.rocket1 = pygame.image.load("sprites\\rocket1_fuel2.png").convert_alpha()
+            self.rocket2 = pygame.image.load("sprites\\rocket2_fuel2.png").convert_alpha()
+            self.rocket3 = pygame.image.load("sprites\\rocket3_fuel2.png").convert_alpha()
 
     def getIn(self, fuel, player_x, player_y):
         if fuel == 6 and abs(player_x - self.rocket1_x) < 5 and abs(player_y - self.rocket1_y) < 8:
