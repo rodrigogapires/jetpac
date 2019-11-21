@@ -5,6 +5,7 @@ class Player:
     def __init__(self, x, y):
         self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
         self.lifes = 4
+        self.score = 0
         self.x = x
         self.y = y
 

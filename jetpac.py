@@ -43,6 +43,7 @@ all_sprites = pygame.sprite.Group()
 right_left = 0
 
 running = True
+fps = 0
 clock = pygame.time.Clock()
 
 while running:
@@ -67,12 +68,12 @@ while running:
             if len(aliens) < 8:
                 aleatorio = random.randint(0, 1)
                 if aleatorio == 0:
-                    new_enemy = Enemy(-80, random.randint(0, 162))
+                    new_enemy = Enemy(-16, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)
                     
                 else:
-                    new_enemy = EnemyRight(242 + 80, random.randint(0, 162))
+                    new_enemy = EnemyRight(256, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)
 
@@ -103,7 +104,7 @@ while running:
             player.y = 162
             for enemy in aliens:            
                 enemy.kill()
-        bullets.update(a,i, i.x, i.y)
+        bullets.update(a,i, i.x, i.y, player)
         a += 1
 
     if rocket.stage < 3:
@@ -133,9 +134,15 @@ while running:
     if player.lifes < 0:
         running = False
 
-    lifes_text = font.render (str(player.lifes),False,(255,255,255),None)
-    lifesRect = lifes_text.get_rect() 
-    lifesRect = (66, 1) 
+    lifes_text = font.render(str(player.lifes), False, (255, 255, 255), None)
+    lifesRect = lifes_text.get_rect()
+    lifesRect = (66, 1)
+    score_text = font.render(str(player.score), False, (255, 255, 0), None)
+    scoreRect = score_text.get_rect()
+    scoreRect = (9, 9)
+    fps_text = font.render(str(int(fps)), False, (0, 255, 0), None)
+    fpsRect = score_text.get_rect()
+    fpsRect = (242, 1)
 
     rocket.fuel(fuel.used)
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))
@@ -146,11 +153,14 @@ while running:
     if player.lifes > 0:
         screen.blit(lifes_text, lifesRect)
         screen.blit(lifes, (73, 0))
+    screen.blit(score_text, scoreRect)
+    screen.blit(fps_text, fpsRect)
+    
     pygame.display.flip()
-    clock.tick(30)
+    clock.tick(31)
     fps = clock.get_fps()
     print(fps)
-    pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full) # Upscale para resolucao do monitor
+    pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full) #Upscale para resolucao do monitor
 
 pygame.quit()
 sys.exit()
