@@ -11,7 +11,10 @@ class Player:
 
 
     def hit(self, enemy_x, enemy_y):
-        if abs(self.x - enemy_x) < 14 and abs(self.y - enemy_y) < 17:
+        if abs(self.x - enemy_x) < 12 and self.y - enemy_y > 0 and abs(self.y - enemy_y) < 10:
+            self.lifes -= 1
+            return True
+        elif abs(self.x - enemy_x) < 12 and self.y - enemy_y < 0 and abs(self.y - enemy_y) < 16:
             self.lifes -= 1
             return True
         

@@ -10,10 +10,15 @@ class RightBullet(pygame.sprite.Sprite):
     def update(self,a,enemy, enemy_x, enemy_y):     
         if a == 0:
             self.x += 3
+            if abs(self.x - enemy_x) < 17 and abs(self.y - enemy_y) <10:
+                self.kill()
+                enemy.kill()
+                
         
         elif abs(self.x - enemy_x) < 17 and abs(self.y - enemy_y) <10:
             self.kill()
             enemy.kill()
+    
      
         
 class LeftBullet(pygame.sprite.Sprite):
@@ -26,7 +31,10 @@ class LeftBullet(pygame.sprite.Sprite):
     def update(self,a,enemy, enemy_x, enemy_y):     
         if a == 0:
             self.x -= 3
-              
+            if abs(self.x - enemy_x) < 17 and abs(self.y - enemy_y) <10:
+                self.kill()
+                enemy.kill()
+            
         elif abs(self.x - enemy_x) < 17 and abs(self.y - enemy_y) <10:
             self.kill()
             enemy.kill()

@@ -13,6 +13,7 @@ from pygame.locals import (
     K_RIGHT,
     K_SPACE,
     K_ESCAPE,
+    K_RETURN,
     KEYDOWN,
 )
 
@@ -39,14 +40,37 @@ aliens = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 
+
+clock = pygame.time.Clock()
+
+
+intro = True
+while intro:
+     screen.fill((0, 255, 0))
+     first_text = font.render('Pressione espaço para jogar', False, (255, 255, 255), None)
+     first_Rect = first_text.get_rect()
+     first_Rect = (170, 50)
+     
+     for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_SPACE:
+                intro = False
+     
+     screen.blit(first_text, first_Rect)
+     pygame.display.flip()
+     clock.tick(31)
+    
+    
+
 # RIGHT = 0 //// LEFT = 1
 right_left = 0
 
 running = True
 fps = 0
-clock = pygame.time.Clock()
 
 while running:
+    pause = False
+    
     screen.fill((0, 0, 0))
     screen.blit(background, (0, 0))
 
@@ -54,6 +78,10 @@ while running:
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 running = False
+                
+            if event.key == K_RETURN:
+                pause = True
+                
             if event.key == K_SPACE:
                 if right_left == 0:
                     bullet = RightBullet(player.x, player.y)
@@ -76,7 +104,13 @@ while running:
                     new_enemy = EnemyRight(256, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)
-
+                    
+    while pause == True:
+        for event in pygame.event.get():
+            if event.type==KEYDOWN:
+                if event.key==K_RETURN:
+                    pause = False                
+    
     keys = pygame.key.get_pressed()
     if keys[K_RIGHT]:
         player.moveRight()
@@ -104,7 +138,7 @@ while running:
             player.y = 162
             for enemy in aliens:            
                 enemy.kill()
-        bullets.update(a,i, i.x, i.y, player)
+        bullets.update(a,i, i.x, i.y)
         a += 1
 
     if rocket.stage < 3:
@@ -161,6 +195,7 @@ while running:
     fps = clock.get_fps()
     print(fps)
     pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full) #Upscale para resolucao do monitor
-
+   
 pygame.quit()
 sys.exit()
+
