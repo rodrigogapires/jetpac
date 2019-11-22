@@ -12,6 +12,8 @@ from pygame.locals import (
     K_LEFT,
     K_RIGHT,
     K_SPACE,
+    K_e,
+    K_h,
     K_ESCAPE,
     K_RETURN,
     KEYDOWN,
@@ -27,6 +29,8 @@ pygame.mouse.set_visible(0)
 font = pygame.font.Font("jetpac.ttf", 6)
 background = pygame.image.load("sprites\\jetpac.png").convert_alpha()
 lifes = pygame.image.load("sprites\\lifes.png").convert_alpha()
+
+
 
 player = Player(130, 162)
 rocket = Rocket()
@@ -46,6 +50,7 @@ clock = pygame.time.Clock()
 
 intro = True
 while intro:
+     HARD_MODE = False
      screen.fill((0, 255, 0))
      first_text = font.render('Pressione espaço para jogar', False, (255, 255, 255), None)
      first_Rect = first_text.get_rect()
@@ -53,7 +58,10 @@ while intro:
      
      for event in pygame.event.get():
         if event.type == KEYDOWN:
-            if event.key == K_SPACE:
+            if event.key == K_e:
+                intro = False
+            if event.key == K_h:
+                HARD_MODE = True
                 intro = False
      
      screen.blit(first_text, first_Rect)
@@ -67,6 +75,8 @@ right_left = 0
 
 running = True
 fps = 0
+
+enemy_limit = 8
 
 while running:
     pause = False
@@ -93,7 +103,7 @@ while running:
                     all_sprites.add(bullet)
                                     
         elif event.type == ADDENEMY:
-            if len(aliens) < 8:
+            if len(aliens) < enemy_limit:
                 aleatorio = random.randint(0, 1)
                 if aleatorio == 0:
                     new_enemy = Enemy(-16, random.randint(0, 162))
@@ -129,7 +139,7 @@ while running:
 
     player.gravity()
     player.collision()
-    aliens.update()
+    aliens.update(HARD_MODE)
 
 
     for i in aliens:
@@ -160,6 +170,7 @@ while running:
         rocket.stage = 3
         player.x = 130
         player.y = 162
+        enemy_limit += 3
     else:
         rocket.nextLevel()
         for enemy in aliens:

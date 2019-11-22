@@ -8,9 +8,14 @@ class Enemy(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.speed = random.randint(1, 2)
- 
-    def update(self):
-        self.x += self.speed
+        self.hard_speed = random.randint(2, 4)
+        
+    def update(self, hard):
+        if hard == True:
+            self.x += self.hard_speed
+        else:
+            self.x += self.speed
+            
         if self.x > 242:
             self.x = 0
             
@@ -21,8 +26,13 @@ class EnemyRight(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.speed = random.randint(1, 2)
+        self.hard_speed = random.randint(2, 4)
  
-    def update(self):
-        self.x -= self.speed
+    def update(self, hard):
+        if hard == True:
+            self.x -= self.hard_speed
+        else:
+            self.x -= self.speed
+            
         if self.x < 0:
             self.x = 242
