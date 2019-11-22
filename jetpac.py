@@ -18,7 +18,7 @@ from pygame.locals import (
 
 
 pygame.init()
-infoObject = pygame.display.Info() # Obtem a resolucao do monitor
+infoObject = pygame.display.Info()       # Obtem a resolucao do monitor
 screen_full = pygame.display.set_mode([int(infoObject.current_w * 3 / 4), infoObject.current_h], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 screen = pygame.Surface((256, 192))
 pygame.mouse.set_visible(0)

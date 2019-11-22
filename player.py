@@ -1,6 +1,5 @@
 import pygame
 
-
 class Player:
     def __init__(self, x, y):
         self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
@@ -9,7 +8,7 @@ class Player:
         self.y = y
 
     def hit(self, enemy_x, enemy_y):
-        if self.x - enemy_x < 16 and self.x - enemy_x > 0 and self.y - enemy_y < 11 and self.y - enemy_y > 0:
+        if abs(self.x - enemy_x) < 14 and abs(self.y - enemy_y) < 17:
             self.lifes -= 1
             return True
         
