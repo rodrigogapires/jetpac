@@ -1,11 +1,14 @@
 import pygame
 
+
 class Player:
     def __init__(self, x, y):
         self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
         self.lifes = 4
+        self.score = 0
         self.x = x
         self.y = y
+
 
     def hit(self, enemy_x, enemy_y):
         if abs(self.x - enemy_x) < 14 and abs(self.y - enemy_y) < 17:
@@ -13,7 +16,6 @@ class Player:
             return True
         
           
-
     def gravity(self):
         self.y += 2
 

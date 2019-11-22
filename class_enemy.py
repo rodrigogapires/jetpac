@@ -7,7 +7,7 @@ class Enemy(pygame.sprite.Sprite):
         self.sprite = pygame.image.load("sprites\\enemy2.png").convert_alpha()
         self.x = x
         self.y = y
-        self.speed = random.randint(1,2)
+        self.speed = random.randint(1, 2)
  
     def update(self):
         self.x += self.speed
@@ -20,10 +20,9 @@ class EnemyRight(pygame.sprite.Sprite):
         self.sprite = pygame.image.load("sprites\\enemy.png").convert_alpha()
         self.x = x
         self.y = y
-        self.speed = random.randint(1,2)
+        self.speed = random.randint(1, 2)
  
     def update(self):
         self.x -= self.speed
         if self.x < 0:
             self.x = 242
-    

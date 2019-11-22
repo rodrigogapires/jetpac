@@ -14,6 +14,7 @@ class RightBullet(pygame.sprite.Sprite):
         elif abs(self.x - enemy_x) < 17 and abs(self.y - enemy_y) <10:
             self.kill()
             enemy.kill()
+     
         
 class LeftBullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -29,4 +30,3 @@ class LeftBullet(pygame.sprite.Sprite):
         elif abs(self.x - enemy_x) < 17 and abs(self.y - enemy_y) <10:
             self.kill()
             enemy.kill()
-        
