@@ -21,7 +21,7 @@ from pygame.locals import (
 
 
 pygame.init()
-infoObject = pygame.display.Info() # Obtem a resolucao do monitor
+infoObject = pygame.display.Info()         # Obtem a resolucao do monitor
 screen_full = pygame.display.set_mode([int(infoObject.current_w * 3 / 4), infoObject.current_h], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 screen = pygame.Surface((256, 192))
 pygame.mouse.set_visible(0)
@@ -52,13 +52,13 @@ intro = True
 while intro:
      HARD_MODE = False
      screen.fill((0, 255, 0))
-     first_text = font.render('Pressione espaço para jogar', False, (255, 255, 255), None)
+     first_text = font.render('Pressione ESPAÇO para jogar//Pressione H para HARD MODE', False, (255, 255, 255), None)
      first_Rect = first_text.get_rect()
      first_Rect = (170, 50)
      
      for event in pygame.event.get():
         if event.type == KEYDOWN:
-            if event.key == K_e:
+            if event.key == K_SPACE:
                 intro = False
             if event.key == K_h:
                 HARD_MODE = True
