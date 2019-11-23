@@ -20,6 +20,13 @@ from pygame.locals import (
 )
 
 
+def text(text, color, x, y):
+    text = font.render(text, False, color, None)
+    rect = text.get_rect()
+    rect = (x, y)
+    screen.blit(text, rect)
+
+
 pygame.init()
 infoObject = pygame.display.Info()  # obtem a resolucao do monitor
 screen_full = pygame.display.set_mode([int(infoObject.current_w * 3 / 4), infoObject.current_h], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
@@ -56,22 +63,6 @@ while intro:
 
     screen.fill((0, 0, 0))
 
-    text0 = font.render("jetpac game selection", False, (255, 255, 255), None)
-    rect0 = text0.get_rect()
-    rect0 = (49, 33)
-
-    text1 = font.render("space 1 player game", False, (255, 255, 255), None)
-    rect1 = text1.get_rect()
-    rect1 = (49, 57)
-
-    text2 = font.render("  h   hardcore game", False, (255, 255, 255), None)
-    rect2 = text2.get_rect()
-    rect2 = (49, 73)
-
-    text3 = font.render(" esc  quit", False, (255, 255, 255), None)
-    rect3 = text3.get_rect()
-    rect3 = (49, 89)
-
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -83,14 +74,14 @@ while intro:
                 HARD_MODE = True
                 intro = False
 
-    screen.blit(text0, rect0)
-    screen.blit(text1, rect1)
-    screen.blit(text2, rect2)
-    screen.blit(text3, rect3)
+    text("jetpac game selection", (255, 255, 255), 49, 33)
+    text("space 1 player game", (255, 255, 255), 49, 57)
+    text("  h   hardcore game", (255, 255, 255), 49, 73)
+    text(" esc  quit", (255, 255, 255), 49, 89)
+
     pygame.display.flip()
     clock.tick(31)
     fps = clock.get_fps()
-    print(fps)
     pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full)  # upscale para resolucao do monitor
 
 while running:
@@ -165,12 +156,12 @@ while running:
         a += 1
 
     if rocket.stage < 3:
-        rocket.get(player.x, player.y)
+        rocket.get(player.x, player.y, player)
 
     if rocket.stage == 3 and fuel.used < 6:
         fuel.gravity()
         fuel.collision()
-        fuel.get(player.x, player.y)
+        fuel.get(player.x, player.y, player)
         screen.blit(fuel.sprite, (fuel.x, fuel.y))
 
     rocket.getIn(fuel.used, player.x, player.y)
@@ -195,12 +186,6 @@ while running:
     lifes_text = font.render(str(player.lifes), False, (255, 255, 255), None)
     lifesRect = lifes_text.get_rect()
     lifesRect = (66, 1)
-    score_text = font.render(str(player.score), False, (255, 255, 0), None)
-    scoreRect = score_text.get_rect()
-    scoreRect = (9, 9)
-    fps_text = font.render(str(int(fps)), False, (0, 255, 0), None)
-    fpsRect = score_text.get_rect()
-    fpsRect = (242, 1)
 
     rocket.fuel(fuel.used)
     screen.blit(rocket.rocket1, (rocket.rocket1_x, rocket.rocket1_y))
@@ -211,13 +196,13 @@ while running:
     if player.lifes > 0:
         screen.blit(lifes_text, lifesRect)
         screen.blit(lifes, (73, 0))
-    screen.blit(score_text, scoreRect)
-    screen.blit(fps_text, fpsRect)
+
+    text(str(player.score), (255, 255, 0), 9, 9)
+    text(str(int(fps)), (0, 255, 0), 242, 1)
 
     pygame.display.flip()
     clock.tick(31)
     fps = clock.get_fps()
-    print(fps)
     pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full)  # upscale para resolucao do monitor
 
 pygame.quit()
