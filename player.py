@@ -9,7 +9,6 @@ class Player:
         self.x = x
         self.y = y
 
-
     def hit(self, enemy_x, enemy_y):
         if abs(self.x - enemy_x) < 12 and self.y - enemy_y > 0 and abs(self.y - enemy_y) < 10:
             self.lifes -= 1
@@ -17,8 +16,7 @@ class Player:
         elif abs(self.x - enemy_x) < 12 and self.y - enemy_y < 0 and abs(self.y - enemy_y) < 16:
             self.lifes -= 1
             return True
-        
-          
+
     def gravity(self):
         self.y += 2
 
@@ -71,4 +69,3 @@ class Player:
 
         if self.y > 80 and self.y < 104 and self.x > 110 and self.x < 150:
             self.y = 104
-            

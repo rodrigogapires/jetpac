@@ -21,7 +21,7 @@ from pygame.locals import (
 
 
 pygame.init()
-infoObject = pygame.display.Info()         # Obtem a resolucao do monitor
+infoObject = pygame.display.Info()  # obtem a resolucao do monitor
 screen_full = pygame.display.set_mode([int(infoObject.current_w * 3 / 4), infoObject.current_h], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 screen = pygame.Surface((256, 192))
 pygame.mouse.set_visible(0)
@@ -30,57 +30,72 @@ font = pygame.font.Font("jetpac.ttf", 6)
 background = pygame.image.load("sprites\\jetpac.png").convert_alpha()
 lifes = pygame.image.load("sprites\\lifes.png").convert_alpha()
 
-
-
 player = Player(130, 162)
 rocket = Rocket()
 fuel = Fuel()
 
+enemy_limit = 8
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
-
 
 aliens = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 
+# RIGHT = 0 //// LEFT = 1
+right_left = 0
 
+fps = 0
 clock = pygame.time.Clock()
 
-
 intro = True
+running = True
+
 while intro:
-     HARD_MODE = False
-     screen.fill((0, 255, 0))
-     first_text = font.render('Pressione ESPAÇO para jogar//Pressione H para HARD MODE', False, (255, 255, 255), None)
-     first_Rect = first_text.get_rect()
-     first_Rect = (170, 50)
-     
-     for event in pygame.event.get():
+    HARD_MODE = False
+
+    screen.fill((0, 0, 0))
+
+    text0 = font.render("jetpac game selection", False, (255, 255, 255), None)
+    rect0 = text0.get_rect()
+    rect0 = (49, 33)
+
+    text1 = font.render("space 1 player game", False, (255, 255, 255), None)
+    rect1 = text1.get_rect()
+    rect1 = (49, 57)
+
+    text2 = font.render("  h   hardcore game", False, (255, 255, 255), None)
+    rect2 = text2.get_rect()
+    rect2 = (49, 73)
+
+    text3 = font.render(" esc  quit", False, (255, 255, 255), None)
+    rect3 = text3.get_rect()
+    rect3 = (49, 89)
+
+    for event in pygame.event.get():
         if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                intro = False
+                running = False
             if event.key == K_SPACE:
                 intro = False
             if event.key == K_h:
                 HARD_MODE = True
                 intro = False
-     
-     screen.blit(first_text, first_Rect)
-     pygame.display.flip()
-     clock.tick(31)
-    
-    
 
-# RIGHT = 0 //// LEFT = 1
-right_left = 0
-
-running = True
-fps = 0
-
-enemy_limit = 8
+    screen.blit(text0, rect0)
+    screen.blit(text1, rect1)
+    screen.blit(text2, rect2)
+    screen.blit(text3, rect3)
+    pygame.display.flip()
+    clock.tick(31)
+    fps = clock.get_fps()
+    print(fps)
+    pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full)  # upscale para resolucao do monitor
 
 while running:
     pause = False
-    
+
     screen.fill((0, 0, 0))
     screen.blit(background, (0, 0))
 
@@ -91,7 +106,7 @@ while running:
                 
             if event.key == K_RETURN:
                 pause = True
-                
+
             if event.key == K_SPACE:
                 if right_left == 0:
                     bullet = RightBullet(player.x, player.y)
@@ -101,7 +116,7 @@ while running:
                     bullet = LeftBullet(player.x, player.y)
                     bullets.add(bullet)
                     all_sprites.add(bullet)
-                                    
+
         elif event.type == ADDENEMY:
             if len(aliens) < enemy_limit:
                 aleatorio = random.randint(0, 1)
@@ -114,13 +129,13 @@ while running:
                     new_enemy = EnemyRight(256, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)
-                    
+
     while pause == True:
         for event in pygame.event.get():
             if event.type==KEYDOWN:
                 if event.key==K_RETURN:
                     pause = False                
-    
+
     keys = pygame.key.get_pressed()
     if keys[K_RIGHT]:
         player.moveRight()
@@ -132,23 +147,21 @@ while running:
         player.moveUp()
     if keys[K_DOWN]:
         player.moveDown()
-        
+
     a = 0    
     hit_player = False
-
 
     player.gravity()
     player.collision()
     aliens.update(HARD_MODE)
 
-
     for i in aliens:
-        if player.hit(i.x,i.y) is True:
+        if player.hit(i.x, i.y) is True:
             player.x = 130
             player.y = 162
             for enemy in aliens:            
                 enemy.kill()
-        bullets.update(a,i, i.x, i.y)
+        bullets.update(a,i, i.x, i.y, player)
         a += 1
 
     if rocket.stage < 3:
@@ -200,13 +213,12 @@ while running:
         screen.blit(lifes, (73, 0))
     screen.blit(score_text, scoreRect)
     screen.blit(fps_text, fpsRect)
-    
+
     pygame.display.flip()
     clock.tick(31)
     fps = clock.get_fps()
     print(fps)
-    pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full) #Upscale para resolucao do monitor
-   
+    pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full)  # upscale para resolucao do monitor
+
 pygame.quit()
 sys.exit()
-
