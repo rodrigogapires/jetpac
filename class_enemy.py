@@ -17,7 +17,7 @@ class Enemy(pygame.sprite.Sprite):
             self.x += self.speed
             
         if self.x > 242:
-            self.x = 0
+            self.kill()
             
 class EnemyRight(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -35,4 +35,4 @@ class EnemyRight(pygame.sprite.Sprite):
             self.x -= self.speed
             
         if self.x < 0:
-            self.x = 242
+            self.kill()

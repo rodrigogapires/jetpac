@@ -4,6 +4,7 @@ import pygame
 class Player:
     def __init__(self, x, y):
         self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
+        self.hitSound = pygame.mixer.Sound('sound\\hit.wav')
         self.lifes = 4
         self.score = 0
         self.x = x
@@ -11,9 +12,11 @@ class Player:
 
     def hit(self, enemy_x, enemy_y):
         if abs(self.x - enemy_x) < 12 and self.y - enemy_y > 0 and abs(self.y - enemy_y) < 10:
+            self.hitSound.play()
             self.lifes -= 1
             return True
         elif abs(self.x - enemy_x) < 12 and self.y - enemy_y < 0 and abs(self.y - enemy_y) < 16:
+            self.hitSound.play()
             self.lifes -= 1
             return True
 
@@ -38,10 +41,10 @@ class Player:
 
         # Bordas
         if self.x > 242:
-            self.x = 242
+            self.x = 0
 
         if self.x < 0:
-            self.x = 0
+            self.x = 242
 
         if self.y > 162:
             self.y = 162

@@ -27,6 +27,7 @@ def text(text, color, x, y):
     screen.blit(text, rect)
 
 
+pygame.mixer.pre_init(48000, -16, 1, 512)
 pygame.init()
 infoObject = pygame.display.Info()  # obtem a resolucao do monitor
 screen_full = pygame.display.set_mode([int(infoObject.current_w * 3 / 4), infoObject.current_h], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
@@ -94,10 +95,8 @@ while running:
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 running = False
-                
             if event.key == K_RETURN:
                 pause = True
-
             if event.key == K_SPACE:
                 if right_left == 0:
                     bullet = RightBullet(player.x, player.y)
@@ -107,7 +106,6 @@ while running:
                     bullet = LeftBullet(player.x, player.y)
                     bullets.add(bullet)
                     all_sprites.add(bullet)
-
         elif event.type == ADDENEMY:
             if len(aliens) < enemy_limit:
                 aleatorio = random.randint(0, 1)
@@ -115,7 +113,6 @@ while running:
                     new_enemy = Enemy(-16, random.randint(0, 162))
                     aliens.add(new_enemy)
                     all_sprites.add(new_enemy)
-                    
                 else:
                     new_enemy = EnemyRight(256, random.randint(0, 162))
                     aliens.add(new_enemy)
@@ -143,7 +140,7 @@ while running:
     hit_player = False
 
     player.gravity()
-    player.collision()
+    
     aliens.update(HARD_MODE)
 
     for i in aliens:
@@ -156,6 +153,7 @@ while running:
         a += 1
 
     if rocket.stage < 3:
+        rocket.collision()
         rocket.get(player.x, player.y, player)
 
     if rocket.stage == 3 and fuel.used < 6:
@@ -164,6 +162,7 @@ while running:
         fuel.get(player.x, player.y, player)
         screen.blit(fuel.sprite, (fuel.x, fuel.y))
 
+    player.collision()
     rocket.getIn(fuel.used, player.x, player.y)
 
     if rocket.inside is False:
@@ -172,6 +171,7 @@ while running:
         fuel.used = 0
         rocket.inside = False
         rocket.stage = 3
+        rocket.i = 0
         player.x = 130
         player.y = 162
         enemy_limit += 3
