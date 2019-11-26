@@ -1,4 +1,5 @@
 import pygame
+import shelve
 
 
 class Player:
@@ -6,6 +7,7 @@ class Player:
         self.sprite = pygame.image.load("sprites\\player.png").convert_alpha()
         self.hitSound = pygame.mixer.Sound('sound\\hit.wav')
         self.lifes = 4
+        self.hiscore = shelve.open("hiscore")["hiscore"]
         self.score = 0
         self.x = x
         self.y = y

@@ -46,13 +46,13 @@ class Fuel:
             self.y = 171
 
         # Plataforma esquerda
-        if self.y > 59 and self.y < 81 and self.x > 22 and self.x < 74:
+        if self.y > 59 and self.y < 64 and self.x > 22 and self.x < 74:
             self.y = 59
 
         # Plataforma direita
-        if self.y > 35 and self.y < 57 and self.x > 182 and self.x < 235:
+        if self.y > 35 and self.y < 40 and self.x > 182 and self.x < 235:
             self.y = 35
 
         # Plataforma centro
-        if self.y > 83 and self.y < 105 and self.x > 110 and self.x < 150:
+        if self.y > 83 and self.y < 88 and self.x > 110 and self.x < 150:
             self.y = 83
