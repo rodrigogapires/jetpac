@@ -27,6 +27,17 @@ def text(text, color, x, y):
     rect = (x, y)
     screen.blit(text, rect)
 
+def addEnemyCondition(enemies, sprites, enemy_limit): 
+    if len(enemies) < enemy_limit:
+        aleatorio = random.randint(0, 1)
+        if aleatorio == 0:
+            new_enemy = EnemyLeft(-16, random.randint(0, 162))
+            enemies.add(new_enemy)
+            sprites.add(new_enemy)
+        else:
+            new_enemy = EnemyRight(256, random.randint(0, 162))
+            enemies.add(new_enemy)
+            sprites.add(new_enemy)
 
 pygame.mixer.pre_init(48000, -16, 1, 512)
 pygame.init()
@@ -119,16 +130,7 @@ while running:
                         bullets.add(bullet)
                         all_sprites.add(bullet)
             elif event.type == ADDENEMY:
-                if len(aliens) < enemy_limit:
-                    aleatorio = random.randint(0, 1)
-                    if aleatorio == 0:
-                        new_enemy = EnemyLeft(-16, random.randint(0, 162))
-                        aliens.add(new_enemy)
-                        all_sprites.add(new_enemy)
-                    else:
-                        new_enemy = EnemyRight(256, random.randint(0, 162))
-                        aliens.add(new_enemy)
-                        all_sprites.add(new_enemy)
+                addEnemyCondition(aliens, all_sprites,enemy_limit)
 
         while pause == True:
             for event in pygame.event.get():
