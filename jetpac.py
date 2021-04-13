@@ -6,7 +6,7 @@ from player import Player
 from rocket import Rocket
 from fuel import Fuel
 from bullet import RightBullet, LeftBullet
-from class_enemy import Enemy, EnemyRight
+from class_enemy import Enemy, EnemyRight, EnemyLeft
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -122,7 +122,7 @@ while running:
                 if len(aliens) < enemy_limit:
                     aleatorio = random.randint(0, 1)
                     if aleatorio == 0:
-                        new_enemy = Enemy(-16, random.randint(0, 162))
+                        new_enemy = EnemyLeft(-16, random.randint(0, 162))
                         aliens.add(new_enemy)
                         all_sprites.add(new_enemy)
                     else:
