@@ -2,11 +2,12 @@ import pygame
 import shelve
 import sys
 import random
+
 from player import Player
 from rocket import Rocket
 from fuel import Fuel
 from bullet import RightBullet, LeftBullet
-from class_enemy import Enemy, EnemyRight, EnemyLeft
+from class_enemy import EnemyRight, EnemyLeft
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -27,7 +28,8 @@ def text(text, color, x, y):
     rect = (x, y)
     screen.blit(text, rect)
 
-def addEnemyCondition(enemies, sprites, enemy_limit): 
+
+def addEnemyCondition(enemies, sprites, enemy_limit):
     if len(enemies) < enemy_limit:
         aleatorio = random.randint(0, 1)
         if aleatorio == 0:
@@ -39,11 +41,16 @@ def addEnemyCondition(enemies, sprites, enemy_limit):
             enemies.add(new_enemy)
             sprites.add(new_enemy)
 
+
+screen_width = 256
+screen_height = 192
+flags = pygame.SCALED | pygame.FULLSCREEN
+
 pygame.mixer.pre_init(48000, -16, 1, 512)
 pygame.init()
-infoObject = pygame.display.Info()  # obtem a resolucao do monitor
-screen_full = pygame.display.set_mode([int(infoObject.current_w * 3 / 4), infoObject.current_h], pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
-screen = pygame.Surface((256, 192))
+
+screen = pygame.display.set_mode([screen_width, screen_height], flags, vsync=1)
+
 pygame.mouse.set_visible(0)
 
 font = pygame.font.Font("jetpac.ttf", 6)
@@ -105,7 +112,6 @@ while running:
         pygame.display.flip()
         clock.tick(31)
         fps = clock.get_fps()
-        pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full)  # upscale para resolucao do monitor
 
     while game:
         pause = False
@@ -130,13 +136,13 @@ while running:
                         bullets.add(bullet)
                         all_sprites.add(bullet)
             elif event.type == ADDENEMY:
-                addEnemyCondition(aliens, all_sprites,enemy_limit)
+                addEnemyCondition(aliens, all_sprites, enemy_limit)
 
         while pause == True:
             for event in pygame.event.get():
-                if event.type==KEYDOWN:
-                    if event.key==K_RETURN:
-                        pause = False                
+                if event.type == KEYDOWN:
+                    if event.key == K_RETURN:
+                        pause = False
 
         keys = pygame.key.get_pressed()
         if keys[K_RIGHT]:
@@ -150,20 +156,20 @@ while running:
         if keys[K_DOWN]:
             player.moveDown()
 
-        a = 0    
+        a = 0
         hit_player = False
 
         player.gravity()
-        
+
         aliens.update(HARD_MODE)
 
         for i in aliens:
             if player.hit(i.x, i.y) is True:
                 player.x = 130
                 player.y = 162
-                for enemy in aliens:            
+                for enemy in aliens:
                     enemy.kill()
-            bullets.update(a,i, i.x, i.y, player)
+            bullets.update(a, i, i.x, i.y, player)
             a += 1
 
         if rocket.stage < 3:
@@ -192,7 +198,7 @@ while running:
         else:
             rocket.nextLevel()
             for enemy in aliens:
-                    enemy.kill()
+                enemy.kill()
 
         if player.lifes < 0:
             lastScore = player.score
@@ -225,7 +231,6 @@ while running:
         pygame.display.flip()
         clock.tick(31)
         fps = clock.get_fps()
-        pygame.transform.scale(screen, (int(infoObject.current_w * 3 / 4), infoObject.current_h), screen_full)  # upscale para resolucao do monitor
 
 pygame.quit()
 sys.exit()
